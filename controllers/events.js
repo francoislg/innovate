@@ -68,11 +68,17 @@ exports.getEvent = function(req, res) {
             for (j = 0; j < commenters.length; j++) {
               if (event.comments[i].author === commenters[j]._id.toString()) {
                 commentContent = event.comments[i].comment.content;
-                authorName = commenters[j].profile.name;
-                authorPicture = commenters[j].profile.picture;
+                if(commenters[j].profile.name == '') {
+                  authorName = commenters[j].email;
+                } 
+                else {
+                  authorName = commenters[j].profile.name;
+                }
+                authorPicture = commenters[j].gravatar(60).toString();
                 break;
               }
             }
+            
             structuredComments.push({'authorName' : authorName,
                                      'authorPicture' : authorPicture,
                                      'comment' : commentContent
