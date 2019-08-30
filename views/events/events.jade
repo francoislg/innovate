@@ -9,8 +9,23 @@ for event in events
                 div.col-xs-3
                     img.img-responsive(src=event.pictureURL ? event.pictureURL : '/image/default-hack-image.png')
                 div.col-xs-9
-                    div.col-xs-10
+                    div.col-xs-8
                         a.hack-title(href="/events/" + event._id)= event.title
-                    div.col-xs-2
-                        div.label.label-default.hack-category= categoryLookup[event.category]
+                    div.col-xs-4
+                        if user 
+                            form(role='form' method='post' action='/events/vote')
+                                .form-group
+                                    input(type='hidden', name='_csrf', value=_csrf)
+                                .form-group
+                                    input(type='hidden' name='event', value=id)
+                                .form-group
+                                    input(type='hidden', name='votedEvent', value=event._id)
+                                button.leave-hack.fa.fa-gavel.full-width(type='submit') Vote
+                        = "Current number of votes : " + event.votes.length
                     div.col-xs-12.pre= event.shortDescription
+                    if event.presentationURL != ''
+                        div.col-xs-12
+                            a(href=event.presentationURL)= event.presentationURL
+
+                        
+                

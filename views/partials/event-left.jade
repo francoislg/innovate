@@ -2,14 +2,6 @@ block content
     if event.open
         div.row
             div.col-xs-12
-                if user && user.judge === true
-                    form(role='form' method='post' action='/events/nominate')
-                        .form-group
-                            input(type='hidden' name='event', value= id)
-                        .form-group
-                            input(type='hidden', name='_csrf', value=_csrf)
-                        button.leave-hack.fa.fa-gavel.full-width(type='submit') Nominate
-
                 if joined === true
                     form(role='form' method='post' action='/events/leave')
                         .form-group

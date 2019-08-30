@@ -23,6 +23,7 @@ exports.getEvents = function(req, res) {
   });
 };
 
+
 exports.search = function(req, res) {
   Event.find({title : {$regex : new RegExp(req.body.title, "i") },
                         category : req.body.category ? req.body.category : { $ne : '' },
@@ -44,6 +45,11 @@ exports.search = function(req, res) {
 exports.getEvent = function(req, res) {
   var participantsIds;
   Event.findOne({ _id: req.params.id }, function(err, event) {
+    if (err) {
+      console.warn( 'Found invalid event.');
+      return null;
+    }
+
     participantsIds = event.owners;
     Category.findOne({_id: event.category}, function(err, category) {
       User.find({_id : {$in :participantsIds}}, function(err, users) {
@@ -173,19 +179,31 @@ exports.createEvent = function(req, res) {
   }
 };
 
+function validateURL(url) {
+  var pattern = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+  if (pattern.test(url)) {
+      return url;
+  } 
+  return '';
+}
+
+
 exports.postEvent = function(req, res, next) {
+
   if (req.params.id) {
     Event.findOne({ _id: req.params.id }, function(err, entity) {
       if (err) return next(err);
       entity.title = req.body.title || '';
       entity.shortDescription = req.body.shortDescription || '';
       entity.description = req.body.description || '';
-      entity.pictureURL = req.body.pictureURL || '';
+      entity.pictureURL = validateURL(req.body.pictureURL) || '';
       entity.category = req.body.category || '';
       entity.season = req.body.season;
       entity.open = req.body.open;
       entity.location = req.body.location;
       entity.science = req.body.science;
+      entity.teamDriveURL = req.body.teamDriveURL || '';
+      entity.presentationURL = req.body.presentationURL || '';
       entity.save(function(err, entity) {
         if (err) return next(err);
         req.flash('success', { msg: 'Hack edited.'});
@@ -204,6 +222,8 @@ exports.postEvent = function(req, res, next) {
     event.open = req.body.open;
     event.location = req.body.location;
     event.science = req.body.science;
+    event.teamDriveURL = req.body.teamDriveURL || '';
+    event.presentationURL = req.body.presentationURL || '';
 
     event.save(function(err, entity) {
       if (err) return next(err);
@@ -242,5 +262,23 @@ exports.postNominate = function(req, res, next) {
         });
       });
     }
+  });
+};
+
+exports.postVote = function(req, res, next) {
+  User.findById(req.user.id, function(err, thisUser) {
+    Event.findOne({ _id: req.body.votedEvent }).exec(function(err, entity) {
+      if (err) return next(err);
+      if(entity.votes.find( userVote => userVote.userID === req.user.id) )
+        req.flash('errors', { msg: 'You\'ve already voted for this hack.' });
+      else {
+        entity.votes.push({userID:req.user.id});
+        entity.save(function(err, entity) {
+          if (err) return next(err);
+        });
+        req.flash('success', { msg: 'You\'ve just voted for this hack' });
+      }
+      res.redirect('/');
+    });
   });
 };

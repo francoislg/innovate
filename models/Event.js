@@ -13,7 +13,10 @@ var eventSchema = new mongoose.Schema({
   location: String,
   science: Boolean,
   nominated: Boolean,
-  comments: [{author: String, comment: {content: String}}]
+  comments: [{author: String, comment: {content: String}}],
+  votes: [{userID: String}],
+  presentationURL: String,
+  teamDriveURL: String
 });
 
 var Event = mongoose.model('Event', eventSchema);

@@ -158,22 +158,6 @@ exports.getAllUsers = function(req, res, next) {
   });
 };
 
-
-exports.getJudging = function(req, res, next) {
-  User.find({judge : true}, function(err, judges) {
-    Event.find({ nominated: true}, function(err, moniatedEvents, next) {
-      Category.find(function(err, categories) {
-        var categoryLookup = {};
-        for (var i = 0; i < categories.length; i++) {
-          categoryLookup[categories[i]._id] = categories[i].name;
-        }
-        res.render('judging', {judges: judges, nominated: moniatedEvents, categoryLookup: categoryLookup});
-      });
-    });
-  });
-};
-
-
 /**
  * POST /account/profile
  * Update profile information.

@@ -117,8 +117,8 @@ app.post('/account/profile', passportConf.isAuthenticated, userController.postUp
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
-app.get('/beautifier', beautifierController.getBeautifier);
-app.post('/beautifier', beautifierController.postBeautifier);
+// app.get('/beautifier', beautifierController.getBeautifier);
+// app.post('/beautifier', beautifierController.postBeautifier);
 
 
 /**
@@ -136,6 +136,7 @@ app.post('/events/leave', passportConf.isAuthenticated, eventsController.leaveEv
 app.get('/events/:id', eventsController.getEvent);
 app.post('/events/comment', passportConf.isAuthenticated, eventsController.postComment);
 app.post('/events/nominate', passportConf.isAuthenticated, eventsController.postNominate);
+app.post('/events/vote', passportConf.isAuthenticated, eventsController.postVote);
 
 app.get('/admin', passportConf.isAuthenticated, adminController.getAdmin);
 
@@ -161,18 +162,16 @@ app.get('/create-prize/:id', passportConf.isAuthenticated, adminController.creat
 app.post('/create-prize', passportConf.isAuthenticated, adminController.postPrize);
 app.post('/create-prize/:id', passportConf.isAuthenticated, adminController.postPrize);
 
-app.get('/judging', userController.getJudging);
-
 app.get('/users', userController.getAllUsers);
 app.post('/users', passportConf.isAuthenticated, userController.postUser);
 
 /**
  * tshirt request routes
  */
-app.get('/tshirt', passportConf.isAuthenticated, tshirtController.getTshirt);
-app.post('/tshirt', passportConf.isAuthenticated, tshirtController.postTshirt);
-app.get('/shipment', passportConf.isAuthenticated, tshirtController.getShipment);
-app.post('/shipment', passportConf.isAuthenticated, tshirtController.markAsDispatched);
+// app.get('/tshirt', passportConf.isAuthenticated, tshirtController.getTshirt);
+// app.post('/tshirt', passportConf.isAuthenticated, tshirtController.postTshirt);
+// app.get('/shipment', passportConf.isAuthenticated, tshirtController.getShipment);
+// app.post('/shipment', passportConf.isAuthenticated, tshirtController.markAsDispatched);
 
 /**
  * OAuth authentication routes. (Sign in)

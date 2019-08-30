@@ -7,8 +7,8 @@
         span.icon-bar
         span.icon-bar
       a.navbar-brand(href='/')
-        i.fa.fa-cube
-        | Hackathons
+        i.fa.fa-laptop
+        | Coveo Innovate
     .collapse.navbar-collapse
       ul.nav.navbar-nav
         li(class=title=='Home'?'active':undefined)
@@ -19,12 +19,12 @@
           a(href='/categories') Categories
         li(class=title == 'Prizes' ? 'active' : undefined)
           a(href='/prizes') Prizes
-        li(class=title == 'Judging' ? 'active' : undefined)
-          a(href='/judging') Judging
-        li(class=title == 't-shirt' ? 'active' : undefined)
+
+        //li(class=title == 't-shirt' ? 'active' : undefined)
           a(href='/tshirt') t-shirt
-        li(class=title == 'beautifier' ? 'active' : undefined)
+        //li(class=title == 'beautifier' ? 'active' : undefined)
           a(href='/beautifier') Beautifier
+
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=title=='Login'?'active':undefined)
